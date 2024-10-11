@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Copyright 2026 Munin
+     License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl). -->
+
+<odoo>
+
+    <record model="ir.ui.view" id="account_multi_general_payments_form_view">
+        <field name="name">multi.payments.general.form (in account_multipayment_general)</field>
+        <field name="model">multi.payments.general</field>
+        <field name="arch" type="xml">
+            <form string="General Multi Pagos">
+                <group>
+                    <group>
+                        <field name="payment_date"/>
+                        <field name="journal_id"/>
+                        <field name="l10n_mx_edi_payment_method_id"/>
+                        <field name="l10n_mx_edi_usage"/>
+                        <field name="available_partner_bank_ids" invisible="1"/>
+                    </group>
+                    <group>
+                        <field name="currency_id"/>
+                        <field name="memo"/>
+                        <field name="amount_total"/>
+                        <field name="group_payment"/>
+                    </group>
+                </group>
+                <field name="register_payment_line">
+                    <tree editable="bottom" create="0">
+                        <field name="amount" sum="Total" force_save="1"/>
+                        <field name="currency_id" invisible="1"/>
+                        <field name="total_a_pagar" string="A Pagar" sum="Total a Pagar"/>
+                        <field name="payment_difference"/>
+                        <field name="payment_difference_handling"/>
+                        <field name="writeoff_account_id"
+                               string="Post Difference In"
+                               options="{'no_create': True,'no_open':True}"
+                               attrs="{'required': [('payment_difference_handling', '=', 'reconcile')]}"/>
+                        <field name="writeoff_label"
+                               attrs="{'required': [('payment_difference_handling', '=', 'reconcile')]}"/>
+                        <field name="source_amount_currency" string="Pendiente Original"/>
+                        <field name="source_currency_id" string="Moneda Origen"/>
+                        <field name="payment_date" invisible="1" force_save="1"/>
+                        <field name="journal_id" invisible="1" force_save="1"/>
+                        <field name="partner_bank_id" invisible="1"/>
+                        <field name="available_journal_ids" invisible="1"/>
+                        <field name="available_partner_bank_ids" invisible="1"/>
+                        <field name="payment_type" invisible="1" force_save="1"/>
+                        <field name="company_id" invisible="1"/>
+                        <field name="partner_id" readonly="1"/>
+                    </tree>
+                </field>
+                <footer>
+                    <button string="Crear Pago" name="create_payment_multi" type="object"
+                            help="This will make payment for all the selected invoices"
+                            class="btn-primary"/>
+                    <button string="Cancelar" class="btn-secondary" special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+
+</odoo>
